@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,13 +10,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #6366f1;
-            --secondary: #a855f7;
-            --accent: #ec4899;
-            --bg: #0f172a;
-            --text: #f8fafc;
-            --glass: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.1);
+            --primary: #4f46e5;
+            --secondary: #9333ea;
+            --accent: #db2777;
+            --bg: #f8fafc;
+            --text: #0f172a;
+            --glass: rgba(255, 255, 255, 0.4);
+            --glass-border: rgba(255, 255, 255, 0.8);
+            --shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.1);
         }
 
         * {
@@ -45,90 +47,126 @@
             height: 100%;
             z-index: -1;
             overflow: hidden;
-            background: radial-gradient(circle at 50% 50%, #1e1b4b 0%, #0f172a 100%);
+            background: radial-gradient(circle at 50% 50%, #f1f5f9 0%, #f8fafc 100%);
         }
 
         .blob {
             position: absolute;
-            width: 500px;
-            height: 500px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            filter: blur(80px);
+            width: 600px;
+            height: 600px;
+            background: linear-gradient(135deg, #c7d2fe, #e9d5ff);
+            filter: blur(100px);
             border-radius: 50%;
-            opacity: 0.4;
-            animation: move 20s infinite alternate cubic-bezier(0.45, 0, 0.55, 1);
+            opacity: 0.6;
+            animation: move 25s infinite alternate cubic-bezier(0.45, 0, 0.55, 1);
         }
 
-        .blob-1 { top: -100px; left: -100px; }
-        .blob-2 { bottom: -150px; right: -100px; background: linear-gradient(135deg, var(--secondary), var(--accent)); animation-delay: -5s; }
-        .blob-3 { top: 40%; left: 60%; width: 300px; height: 300px; background: var(--primary); animation-duration: 25s; }
+        .blob-1 {
+            top: -150px;
+            left: -100px;
+            background: linear-gradient(135deg, #a5b4fc, #c084fc);
+        }
+
+        .blob-2 {
+            bottom: -200px;
+            right: -150px;
+            background: linear-gradient(135deg, #fbcfe8, #fda4af);
+            animation-delay: -7s;
+        }
+
+        .blob-3 {
+            top: 30%;
+            left: 55%;
+            width: 400px;
+            height: 400px;
+            background: #e0e7ff;
+            animation-duration: 30s;
+        }
 
         @keyframes move {
-            0% { transform: translate(0, 0) scale(1) rotate(0deg); }
-            33% { transform: translate(100px, 50px) scale(1.1) rotate(10deg); }
-            66% { transform: translate(-50px, 150px) scale(0.9) rotate(-10deg); }
-            100% { transform: translate(0, 0) scale(1) rotate(0deg); }
+            0% {
+                transform: translate(0, 0) scale(1) rotate(0deg);
+            }
+
+            33% {
+                transform: translate(120px, 60px) scale(1.1) rotate(15deg);
+            }
+
+            66% {
+                transform: translate(-60px, 180px) scale(0.9) rotate(-15deg);
+            }
+
+            100% {
+                transform: translate(0, 0) scale(1) rotate(0deg);
+            }
         }
 
         /* Main Card */
         .card {
             background: var(--glass);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
             border: 1px solid var(--glass-border);
-            padding: 4rem;
-            border-radius: 2rem;
+            padding: 4.5rem;
+            border-radius: 2.5rem;
             text-align: center;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            box-shadow: var(--shadow);
             transform-style: preserve-3d;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.4s ease;
             cursor: pointer;
             z-index: 10;
         }
 
         .card:hover {
-            transform: translateY(-10px) rotateX(5deg) rotateY(-5deg);
-            box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.7);
+            transform: translateY(-12px) rotateX(6deg) rotateY(-6deg);
+            box-shadow: 0 45px 90px -25px rgba(15, 23, 42, 0.15);
         }
 
         h1 {
-            font-size: 5rem;
+            font-size: 5.5rem;
             font-weight: 700;
             margin-bottom: 1rem;
-            background: linear-gradient(to right, #fff, #94a3b8);
+            background: linear-gradient(to bottom right, #1e293b, #64748b);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            letter-spacing: -2px;
-            animation: fadeIn 1s ease-out forwards;
+            letter-spacing: -3px;
+            animation: fadeIn 1.2s cubic-bezier(0.23, 1, 0.32, 1) forwards;
         }
 
         p {
-            font-size: 1.25rem;
-            color: #94a3b8;
+            font-size: 1.35rem;
+            color: #475569;
             font-weight: 300;
-            animation: fadeIn 1s ease-out 0.3s forwards;
+            animation: fadeIn 1.2s cubic-bezier(0.23, 1, 0.32, 1) 0.4s forwards;
             opacity: 0;
         }
 
         .badge {
             display: inline-block;
-            margin-top: 2rem;
-            padding: 0.5rem 1.5rem;
+            margin-bottom: 2rem;
+            padding: 0.6rem 1.6rem;
             border-radius: 9999px;
-            background: rgba(99, 102, 241, 0.1);
-            border: 1px solid rgba(99, 102, 241, 0.2);
-            font-size: 0.875rem;
+            background: rgba(79, 70, 229, 0.08);
+            border: 1px solid rgba(79, 70, 229, 0.1);
+            font-size: 0.9rem;
             color: var(--primary);
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
             font-weight: 700;
-            animation: fadeIn 1s ease-out 0.6s forwards;
+            animation: fadeIn 1.2s cubic-bezier(0.23, 1, 0.32, 1) 0.2s forwards;
             opacity: 0;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* Interactive Element */
@@ -137,23 +175,30 @@
             position: fixed;
             top: 0;
             left: 0;
-            width: 20px;
-            height: 20px;
+            width: 25px;
+            height: 25px;
             background: var(--primary);
             border-radius: 50%;
-            filter: blur(5px);
-            opacity: 0.5;
-            transition: transform 0.1s ease;
+            filter: blur(10px);
+            opacity: 0.3;
+            transition: transform 0.15s ease-out;
             z-index: 100;
         }
 
         /* Responsive */
         @media (max-width: 640px) {
-            h1 { font-size: 3rem; }
-            .card { padding: 2rem; width: 90%; }
+            h1 {
+                font-size: 3.5rem;
+            }
+
+            .card {
+                padding: 2.5rem;
+                width: 90%;
+            }
         }
     </style>
 </head>
+
 <body>
     <div class="bg-blobs">
         <div class="blob blob-1"></div>
@@ -164,7 +209,7 @@
     <div class="card" id="mainCard">
         <div class="badge">Next Gen UI</div>
         <h1>Hello World</h1>
-        <p>A new era of web experiences begins here.</p>
+        <p>Experience the luminance of modern web.</p>
     </div>
 
     <div class="cursor-trail" id="trail"></div>
@@ -175,7 +220,7 @@
 
         // Simple mouse trail effect
         document.addEventListener('mousemove', (e) => {
-            trail.style.transform = `translate(${e.clientX - 10}px, ${e.clientY - 10}px)`;
+            trail.style.transform = `translate(${e.clientX - 12.5}px, ${e.clientY - 12.5}px)`;
         });
 
         // Interactive card movement
@@ -183,8 +228,8 @@
             const { left, top, width, height } = card.getBoundingClientRect();
             const x = (e.clientX - left) / width - 0.5;
             const y = (e.clientY - top) / height - 0.5;
-            
-            card.style.transform = `perspective(1000px) rotateY(${x * 20}deg) rotateX(${y * -20}deg) translateY(-10px)`;
+
+            card.style.transform = `perspective(1000px) rotateY(${x * 25}deg) rotateX(${y * -25}deg) translateY(-12px)`;
         });
 
         card.addEventListener('mouseleave', () => {
@@ -196,12 +241,13 @@
             const h1 = card.querySelector('h1');
             h1.style.animation = 'none';
             void h1.offsetWidth; // trigger reflow
-            h1.style.animation = 'fadeIn 0.5s ease-out';
-            
-            const colors = ['#6366f1', '#a855f7', '#ec4899', '#3b82f6'];
-            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            h1.style.animation = 'fadeIn 0.6s ease-out';
+
+            const vibrantColors = ['#4f46e5', '#9333ea', '#db2777', '#06b6d4', '#f59e0b'];
+            const randomColor = vibrantColors[Math.floor(Math.random() * vibrantColors.length)];
             document.documentElement.style.setProperty('--primary', randomColor);
         });
     </script>
 </body>
+
 </html>
