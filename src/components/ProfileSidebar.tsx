@@ -3,67 +3,81 @@ import { motion } from 'framer-motion';
 
 const ProfileSidebar = () => {
     return (
-        <div className="flex flex-col gap-4 animate-fade">
+        <div className="flex flex-col gap-4">
             <div className="relative group">
                 <motion.div
-                    initial={{ scale: 0.9, opacity: 0 }}
+                    initial={{ scale: 0.95, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
-                    transition={{ duration: 0.5 }}
-                    className="w-full aspect-square rounded-full bg-[#f0f2f5] border border-border-default overflow-hidden relative"
+                    transition={{ duration: 0.6, ease: "easeOut" }}
+                    className="w-full aspect-square rounded-full bg-[#f6f8fa] border border-[#d0d7de] overflow-hidden shadow-inner"
                 >
                     <img
-                        src={`https://api.dicebear.com/7.x/avataaars/svg?seed=gaejarae`}
+                        src={`https://api.dicebear.com/7.x/avataaars/svg?seed=gaejarae&backgroundColor=b6e3f4`}
                         alt="Avatar"
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
                     />
                 </motion.div>
-                <div className="absolute bottom-6 right-2 w-10 h-10 rounded-full border border-border-default bg-white flex items-center justify-center cursor-help hover:bg-secondary transition-colors shadow-sm">
-                    <span>😊</span>
+                <div className="absolute bottom-6 right-2 w-10 h-10 rounded-full border border-[#d0d7de] bg-white flex items-center justify-center cursor-help hover:bg-[#f6f8fa] transition-colors shadow-sm z-10">
+                    <span className="text-lg">✨</span>
                 </div>
             </div>
 
             <div className="mt-4">
-                <h1 className="text-2xl font-bold text-text-primary">Gae Jarae</h1>
-                <p className="text-xl text-text-tertiary">gaejarae</p>
+                <h1 className="text-2xl font-bold text-[#1f2328] font-heading">Gae Jarae</h1>
+                <p className="text-xl text-[#636c76] font-light">gaejarae</p>
             </div>
 
-            <button className="w-full py-1.5 px-4 bg-secondary border border-border-default rounded-md text-sm font-semibold hover:bg-[#ebedf0] transition-colors mt-2">
+            <button className="w-full py-1.5 px-4 bg-[#f6f8fa] border border-[#d0d7de] rounded-md text-sm font-semibold hover:bg-[#ebedf0] transition-all mt-2 shadow-sm active:scale-[0.98]">
                 Edit profile
             </button>
 
-            <div className="flex items-center gap-1.5 text-sm text-text-secondary mt-2">
-                <Users className="w-4 h-4" />
-                <span className="font-semibold text-text-primary">1.2k</span> followers
-                <span className="mx-1">·</span>
-                <span className="font-semibold text-text-primary">42</span> following
+            <div className="flex items-center flex-wrap gap-x-3 gap-y-1 text-sm text-[#636c76] mt-2">
+                <div className="flex items-center gap-1">
+                    <Users className="w-4 h-4 text-[#6e7781]" />
+                    <span className="font-semibold text-[#1f2328]">1,284</span> <span className="text-xs">followers</span>
+                </div>
+                <div className="flex items-center gap-1">
+                    <span className="text-[#d8dee4]">·</span>
+                    <span className="font-semibold text-[#1f2328]">42</span> <span className="text-xs">following</span>
+                </div>
             </div>
 
-            <div className="flex flex-col gap-2 mt-4 text-sm text-text-primary">
-                <div className="flex items-center gap-2">
-                    <MapPin className="w-4 h-4 text-text-tertiary" />
+            <div className="flex flex-col gap-2 mt-4 text-[13px] text-[#1f2328]">
+                <div className="flex items-center gap-2 group">
+                    <MapPin className="w-4 h-4 text-[#6e7781]" />
                     <span>Seoul, South Korea</span>
                 </div>
-                <div className="flex items-center gap-2">
-                    <Mail className="w-4 h-4 text-text-tertiary" />
-                    <a href="mailto:hello@gaejarae.com" className="hover:text-accent-blue">hello@gaejarae.com</a>
+                <div className="flex items-center gap-2 group">
+                    <Mail className="w-4 h-4 text-[#6e7781]" />
+                    <a href="mailto:hello@gaejarae.com" className="hover:text-blue-600 transition-colors">hello@gaejarae.com</a>
                 </div>
-                <div className="flex items-center gap-2">
-                    <LinkIcon className="w-4 h-4 text-text-tertiary" />
-                    <a href="https://gaejarae.github.io" className="hover:text-accent-blue">gaejarae.github.io</a>
+                <div className="flex items-center gap-2 group">
+                    <LinkIcon className="w-4 h-4 text-[#6e7781]" />
+                    <a href="https://gaejarae.github.io" className="hover:text-blue-600 font-medium transition-colors">gaejarae.github.io</a>
                 </div>
-                <div className="flex items-center gap-2">
-                    <Twitter className="w-4 h-4 text-text-tertiary" />
-                    <a href="#" className="hover:text-accent-blue">@gaejarae</a>
+                <div className="flex items-center gap-2 group">
+                    <Twitter className="w-4 h-4 text-[#6e7781]" />
+                    <a href="#" className="hover:text-blue-600 transition-colors">@gaejarae</a>
                 </div>
             </div>
 
-            <div className="mt-6 border-t border-muted pt-4">
-                <h3 className="text-sm font-semibold mb-3">Achievements</h3>
-                <div className="flex gap-2">
-                    {['🏆', '🌟', '🚀', '💻'].map((emoji, i) => (
-                        <div key={i} className="w-8 h-8 rounded-full border border-border-default flex items-center justify-center text-lg hover:scale-110 transition-transform cursor-help">
-                            {emoji}
-                        </div>
+            <div className="mt-6 border-t border-[#d8dee4] pt-5">
+                <h3 className="text-sm font-semibold mb-4 font-heading text-[#1f2328]">Achievements</h3>
+                <div className="flex flex-wrap gap-3">
+                    {[
+                        { tag: '🏆', label: 'Gold Contributor' },
+                        { tag: '🌟', label: 'Star Coder' },
+                        { tag: '🚀', label: 'Fast Mover' },
+                        { tag: '💻', label: 'Tech Enthusiast' }
+                    ].map((item, i) => (
+                        <motion.div
+                            key={i}
+                            whileHover={{ y: -5, scale: 1.1 }}
+                            title={item.label}
+                            className="w-9 h-9 rounded-full border border-[#d0d7de] flex items-center justify-center text-xl bg-white shadow-sm cursor-help hover:border-blue-400 transition-colors"
+                        >
+                            {item.tag}
+                        </motion.div>
                     ))}
                 </div>
             </div>
