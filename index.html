@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hello World | Premium Experience</title>
+    <title>Hello World | Interactive Experience</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700&display=swap" rel="stylesheet">
@@ -18,6 +18,8 @@
             --glass: rgba(255, 255, 255, 0.4);
             --glass-border: rgba(255, 255, 255, 0.8);
             --shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.1);
+            --mouse-x: 50%;
+            --mouse-y: 50%;
         }
 
         * {
@@ -35,17 +37,29 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            perspective: 1000px;
+            perspective: 1200px;
         }
 
-        /* Animated Background */
+        /* Spotlight Effect Background */
+        .spotlight-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at var(--mouse-x) var(--mouse-y), rgba(79, 70, 229, 0.1) 0%, transparent 50%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Animated Background Blobs */
         .bg-blobs {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1;
+            z-index: -2;
             overflow: hidden;
             background: radial-gradient(circle at 50% 50%, #f1f5f9 0%, #f8fafc 100%);
         }
@@ -54,24 +68,24 @@
             position: absolute;
             width: 600px;
             height: 600px;
-            background: linear-gradient(135deg, #c7d2fe, #e9d5ff);
             filter: blur(100px);
             border-radius: 50%;
-            opacity: 0.6;
-            animation: move 25s infinite alternate cubic-bezier(0.45, 0, 0.55, 1);
+            opacity: 0.5;
+            transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
         .blob-1 {
             top: -150px;
             left: -100px;
             background: linear-gradient(135deg, #a5b4fc, #c084fc);
+            transform: translate(calc(var(--mouse-x) / 10), calc(var(--mouse-y) / 10));
         }
 
         .blob-2 {
             bottom: -200px;
             right: -150px;
             background: linear-gradient(135deg, #fbcfe8, #fda4af);
-            animation-delay: -7s;
+            transform: translate(calc(var(--mouse-x) / -15), calc(var(--mouse-y) / -15));
         }
 
         .blob-3 {
@@ -80,25 +94,7 @@
             width: 400px;
             height: 400px;
             background: #e0e7ff;
-            animation-duration: 30s;
-        }
-
-        @keyframes move {
-            0% {
-                transform: translate(0, 0) scale(1) rotate(0deg);
-            }
-
-            33% {
-                transform: translate(120px, 60px) scale(1.1) rotate(15deg);
-            }
-
-            66% {
-                transform: translate(-60px, 180px) scale(0.9) rotate(-15deg);
-            }
-
-            100% {
-                transform: translate(0, 0) scale(1) rotate(0deg);
-            }
+            transform: translate(calc(var(--mouse-x) / 20), calc(var(--mouse-y) / 20));
         }
 
         /* Main Card */
@@ -112,14 +108,36 @@
             text-align: center;
             box-shadow: var(--shadow);
             transform-style: preserve-3d;
-            transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.4s ease;
+            transition: transform 0.1s ease-out;
             cursor: pointer;
             z-index: 10;
+            position: relative;
+            overflow: hidden;
         }
 
-        .card:hover {
-            transform: translateY(-12px) rotateX(6deg) rotateY(-6deg);
-            box-shadow: 0 45px 90px -25px rgba(15, 23, 42, 0.15);
+        /* Card Spotlight Overlay */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at var(--card-mouse-x) var(--card-mouse-y), rgba(255, 255, 255, 0.4) 0%, transparent 60%);
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .content-layer {
+            transform-style: preserve-3d;
+            position: relative;
+            z-index: 2;
         }
 
         h1 {
@@ -130,15 +148,19 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             letter-spacing: -3px;
-            animation: fadeIn 1.2s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+            transition: transform 0.1s ease-out;
+            /* Parallax effect on tilt */
+            transform: translateZ(50px);
         }
 
         p {
             font-size: 1.35rem;
             color: #475569;
             font-weight: 300;
-            animation: fadeIn 1.2s cubic-bezier(0.23, 1, 0.32, 1) 0.4s forwards;
+            transform: translateZ(25px);
+            transition: transform 0.1s ease-out;
             opacity: 0;
+            animation: fadeIn 1s ease-out 0.4s forwards;
         }
 
         .badge {
@@ -153,36 +175,49 @@
             text-transform: uppercase;
             letter-spacing: 1.5px;
             font-weight: 700;
-            animation: fadeIn 1.2s cubic-bezier(0.23, 1, 0.32, 1) 0.2s forwards;
+            transform: translateZ(15px);
             opacity: 0;
+            animation: fadeIn 1s ease-out 0.2s forwards;
         }
 
         @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(30px) translateZ(var(--tz, 0));
             }
 
             to {
                 opacity: 1;
-                transform: translateY(0);
+                transform: translateY(0) translateZ(var(--tz, 0));
             }
         }
 
-        /* Interactive Element */
+        /* Refined Cursor Trail */
         .cursor-trail {
             pointer-events: none;
             position: fixed;
             top: 0;
             left: 0;
-            width: 25px;
-            height: 25px;
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--primary);
+            border-radius: 50%;
+            opacity: 0.2;
+            transition: transform 0.2s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.3s ease;
+            z-index: 100;
+        }
+
+        .cursor-dot {
+            pointer-events: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 8px;
+            height: 8px;
             background: var(--primary);
             border-radius: 50%;
-            filter: blur(10px);
-            opacity: 0.3;
-            transition: transform 0.15s ease-out;
-            z-index: 100;
+            z-index: 101;
+            transition: transform 0.05s linear;
         }
 
         /* Responsive */
@@ -200,6 +235,7 @@
 </head>
 
 <body>
+    <div class="spotlight-bg"></div>
     <div class="bg-blobs">
         <div class="blob blob-1"></div>
         <div class="blob blob-2"></div>
@@ -207,45 +243,74 @@
     </div>
 
     <div class="card" id="mainCard">
-        <div class="badge">Next Gen UI</div>
-        <h1>Hello World</h1>
-        <p>Experience the luminance of modern web.</p>
+        <div class="content-layer">
+            <div class="badge" style="--tz: 15px">Interactive UI</div>
+            <h1 id="title">Hello World</h1>
+            <p style="--tz: 25px">Feel the pulse of every pixel.</p>
+        </div>
     </div>
 
     <div class="cursor-trail" id="trail"></div>
+    <div class="cursor-dot" id="dot"></div>
 
     <script>
         const card = document.getElementById('mainCard');
         const trail = document.getElementById('trail');
+        const dot = document.getElementById('dot');
+        const root = document.documentElement;
 
-        // Simple mouse trail effect
+        // Mouse tracking for global effects
         document.addEventListener('mousemove', (e) => {
-            trail.style.transform = `translate(${e.clientX - 12.5}px, ${e.clientY - 12.5}px)`;
+            const x = e.clientX;
+            const y = e.clientY;
+
+            // Update global CSS variables for spotlight and blobs
+            root.style.setProperty('--mouse-x', `${x}px`);
+            root.style.setProperty('--mouse-y', `${y}px`);
+
+            // Smoother custom cursor
+            trail.style.transform = `translate(${x - 20}px, ${y - 20}px)`;
+            dot.style.transform = `translate(${x - 4}px, ${y - 4}px)`;
         });
 
-        // Interactive card movement
+        // Interactive card movement with parallax
         card.addEventListener('mousemove', (e) => {
             const { left, top, width, height } = card.getBoundingClientRect();
             const x = (e.clientX - left) / width - 0.5;
             const y = (e.clientY - top) / height - 0.5;
 
-            card.style.transform = `perspective(1000px) rotateY(${x * 25}deg) rotateX(${y * -25}deg) translateY(-12px)`;
+            // Update local card spotlight
+            card.style.setProperty('--card-mouse-x', `${e.clientX - left}px`);
+            card.style.setProperty('--card-mouse-y', `${e.clientY - top}px`);
+
+            // Apply 3D rotation
+            card.style.transform = `perspective(1200px) rotateY(${x * 30}deg) rotateX(${y * -30}deg) translateY(-10px)`;
         });
 
         card.addEventListener('mouseleave', () => {
-            card.style.transform = `perspective(1000px) rotateY(0) rotateX(0) translateY(0)`;
+            card.style.transform = `perspective(1200px) rotateY(0) rotateX(0) translateY(0)`;
+            trail.style.opacity = '0.2';
         });
 
-        // Click interaction
-        card.addEventListener('click', () => {
-            const h1 = card.querySelector('h1');
-            h1.style.animation = 'none';
-            void h1.offsetWidth; // trigger reflow
-            h1.style.animation = 'fadeIn 0.6s ease-out';
+        card.addEventListener('mouseenter', () => {
+            trail.style.opacity = '0.5';
+            trail.style.transform += ' scale(1.5)';
+        });
 
-            const vibrantColors = ['#4f46e5', '#9333ea', '#db2777', '#06b6d4', '#f59e0b'];
+        // Click interaction: Pulse and Color Change
+        card.addEventListener('click', () => {
+            const title = document.getElementById('title');
+            title.style.transition = 'none';
+            title.style.transform = 'translateZ(100px) scale(1.1)';
+
+            setTimeout(() => {
+                title.style.transition = 'transform 0.5s cubic-bezier(0.23, 1, 0.32, 1)';
+                title.style.transform = 'translateZ(50px) scale(1)';
+            }, 100);
+
+            const vibrantColors = ['#4f46e5', '#9333ea', '#db2777', '#06b6d4', '#10b981', '#f59e0b'];
             const randomColor = vibrantColors[Math.floor(Math.random() * vibrantColors.length)];
-            document.documentElement.style.setProperty('--primary', randomColor);
+            root.style.setProperty('--primary', randomColor);
         });
     </script>
 </body>
