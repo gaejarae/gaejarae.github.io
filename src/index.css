@@ -3,72 +3,72 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@300;400;600;900&display=swap');
 
 @theme {
-  --color-primary: #1f2328;
-  --color-primary-muted: #636c76;
-  --color-accent-blue: #0969da;
-  --color-accent-green: #1f883d;
-  --color-accent-orange: #fd8c73;
+  --color-primary: #111111;
+  --color-primary-muted: #666666;
+  --color-accent: #6d28d9;
 
   --font-sans: 'Inter', system-ui, sans-serif;
   --font-heading: 'Outfit', sans-serif;
 
-  --color-github-card: #ffffff;
-  --color-github-main: #ffffff;
-  --color-github-side: #f6f8fa;
-
-  --color-commit-0: #ebedf0;
-  --color-commit-1: #9be9a8;
-  --color-commit-2: #40c463;
-  --color-commit-3: #30a14e;
-  --color-commit-4: #216e39;
-
-  --border-default: #d0d7de;
-  --border-muted: #d8dee4;
+  --background-glass: rgba(255, 255, 255, 0.4);
+  --border-glass: rgba(255, 255, 255, 0.2);
 }
 
 @layer base {
   body {
-    @apply antialiased text-[#1f2328] bg-white font-sans;
+    margin: 0;
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: white;
+    color: #111;
+    overflow-x: hidden;
   }
 }
 
 @layer components {
-  .glass {
-    @apply bg-white/80 backdrop-blur-md border border-white/20;
+  .cloudy-glass {
+    background-color: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
   }
 }
 
-/* Custom Scrollbar */
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
+.magnetic-hover {
+  transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-.scrollbar-hide {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+.text-gradient {
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  background-image: linear-gradient(to right, #7c3aed, #3b82f6, #4f46e5);
 }
 
-@utility no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
-}
-
-.animate-fade {
-  animation: fadeIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+.animate-fade-in {
+  animation: fadeIn 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(20px);
   }
 
   to {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* Custom Scrollbar */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

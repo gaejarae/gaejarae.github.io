@@ -1,41 +1,38 @@
-import { Search, Bell, Plus, Github } from 'lucide-react';
+import { Github, Menu } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const Navbar = () => {
     return (
-        <nav className="glass sticky top-0 z-50 border-b border-[#d8dee4]">
-            <div className="max-w-[1280px] mx-auto px-4 md:px-8 flex items-center justify-between h-16">
-                <div className="flex items-center gap-4">
-                    <Github className="w-8 h-8 cursor-pointer hover:opacity-70 transition-opacity" />
-                    <div className="relative group hidden md:block">
-                        <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
-                            <Search className="w-4 h-4 text-[#6e7781]" />
-                        </div>
-                        <input
-                            type="text"
-                            placeholder="Search or jump to..."
-                            className="bg-[#f6f8fa] border border-[#d0d7de] rounded-md py-1.5 pl-10 pr-3 text-sm w-72 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-sans"
-                        />
+        <motion.nav
+            initial={{ y: -20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[90%] max-w-[800px]"
+        >
+            <div className="cloudy-glass rounded-full px-6 py-3 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 rounded-lg bg-linear-to-tr from-violet-600 to-indigo-600 flex items-center justify-center text-white font-bold text-lg">
+                        G
                     </div>
-                    <div className="hidden lg:flex gap-4 text-sm font-semibold">
-                        <a href="#" className="hover:text-blue-600 transition-colors">Pull requests</a>
-                        <a href="#" className="hover:text-blue-600 transition-colors">Issues</a>
-                        <a href="#" className="hover:text-blue-600 transition-colors">Marketplace</a>
-                        <a href="#" className="hover:text-blue-600 transition-colors">Explore</a>
-                    </div>
+                    <span className="font-heading font-bold tracking-tight text-[#111]">GAE JARAE</span>
+                </div>
+
+                <div className="hidden md:flex items-center gap-8 text-[13px] font-semibold text-[#444]">
+                    <a href="#" className="hover:text-violet-600 transition-colors">Home</a>
+                    <a href="#" className="hover:text-violet-600 transition-colors">About</a>
+                    <a href="#" className="hover:text-violet-600 transition-colors">Projects</a>
+                    <a href="#" className="hover:text-violet-600 transition-colors">Contact</a>
                 </div>
 
                 <div className="flex items-center gap-3">
-                    <button className="p-1.5 rounded-md hover:bg-gray-100 transition-colors">
-                        <Bell className="w-5 h-5 text-[#1f2328]" />
+                    <a href="https://github.com/gaejarae" target="_blank" rel="noopener noreferrer">
+                        <Github className="w-5 h-5 text-[#111] hover:text-violet-600 transition-colors" />
+                    </a>
+                    <button className="md:hidden">
+                        <Menu className="w-5 h-5" />
                     </button>
-                    <button className="flex items-center gap-1 p-1.5 rounded-md hover:bg-gray-100 transition-colors">
-                        <Plus className="w-5 h-5 text-[#1f2328]" />
-                        <span className="text-[10px]">▼</span>
-                    </button>
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-[#0969da] to-[#1f883d] cursor-pointer border border-[#d0d7de] shadow-sm hover:scale-110 transition-transform ml-1" />
                 </div>
             </div>
-        </nav>
+        </motion.nav>
     );
 };
 

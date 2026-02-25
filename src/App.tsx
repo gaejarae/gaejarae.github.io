@@ -1,155 +1,139 @@
 import Navbar from './components/Navbar';
-import ProfileSidebar from './components/ProfileSidebar';
-import RepoCard from './components/RepoCard';
-import ContributionGraph from './components/ContributionGraph';
-import { motion } from 'framer-motion';
-
-const pinnedRepos = [
-  {
-    name: 'premium-gh-portfolio',
-    description: 'A world-class, visually stunning GitHub-inspired portfolio page built with React, Vite and Tailwind.',
-    language: 'TypeScript',
-    languageColor: '#3178c6',
-    stars: 1245,
-    forks: 48
-  },
-  {
-    name: 'magic-ui-components',
-    description: 'Highly interactive and smooth UI components for modern web applications with Framer Motion.',
-    language: 'React',
-    languageColor: '#61dafb',
-    stars: 2890,
-    forks: 156
-  },
-  {
-    name: 'antigravity-engine',
-    description: 'Core engine for agentic coding assistants with focus on velocity, accuracy, and aesthetics.',
-    language: 'Rust',
-    languageColor: '#dea584',
-    stars: 3205,
-    forks: 289
-  },
-  {
-    name: 'design-tokens-pro',
-    description: 'Guidelines and tokens for creating premium user experiences in modern Light Mode applications.',
-    language: 'CSS',
-    languageColor: '#563d7c',
-    stars: 145,
-    forks: 22
-  }
-];
+import FluidMeshBackground from './components/FluidMeshBackground';
+import ProjectCard from './components/ProjectCard';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { useRef } from 'react';
+import { Github, Twitter, Mail, ExternalLink, Sparkles } from 'lucide-react';
 
 function App() {
+  const targetRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: targetRef,
+    offset: ["start end", "end start"],
+  });
+
+  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
+  const scale = useTransform(scrollYProgress, [0, 0.2], [0.8, 1]);
+
+  const projects = [
+    {
+      title: "Antigravity Engine",
+      description: "High-performance simulation engine for organic motion and fluid dynamics in web environments.",
+      tags: ["TypeScript", "Canvas", "Physics"],
+      image: "https://images.unsplash.com/photo-1635776062127-d379bfcba9f8?auto=format&fit=crop&q=80&w=800"
+    },
+    {
+      title: "Crystal UI Kit",
+      description: "A premium set of Glassmorphism components for high-end digital agency portfolios.",
+      tags: ["React", "Framer Motion", "CSS"],
+      image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=800"
+    },
+    {
+      title: "Iridescent Dash",
+      description: "Data visualization dashboard with real-time liquid gradient backgrounds and 3D interactions.",
+      tags: ["Next.js", "D3.js", "WebGL"],
+      image: "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&q=80&w=800"
+    },
+    {
+      title: "Magnetic Core",
+      description: "An open-source library for creating natural-feeling magnetic and tactile user interfaces.",
+      tags: ["Rust", "Wasm", "React"],
+      image: "https://images.unsplash.com/photo-1642427749670-f20e2e76ee8c?auto=format&fit=crop&q=80&w=800"
+    }
+  ];
+
   return (
-    <div className="min-h-screen bg-white font-sans selection:bg-blue-100">
+    <div className="relative min-h-screen">
+      <FluidMeshBackground />
       <Navbar />
 
-      <div className="max-w-[1280px] mx-auto px-4 md:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-[296px_1fr] gap-x-8 gap-y-12">
-          {/* Sidebar */}
-          <aside className="lg:pr-4">
-            <ProfileSidebar />
-          </aside>
+      <main className="container pt-40 pb-20">
+        {/* Hero Section */}
+        <section className="flex flex-col items-center text-center px-4">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="mb-6 px-4 py-1.5 rounded-full bg-white/50 border border-white text-[11px] font-bold tracking-[0.2em] text-violet-600 uppercase flex items-center gap-2 shadow-sm"
+          >
+            <Sparkles className="w-3 h-3" />
+            Future-Ready Design
+          </motion.div>
 
-          {/* Main Content */}
-          <main className="min-w-0">
-            {/* Nav Tabs */}
-            <div className="flex gap-5 border-b border-[#d8dee4] mb-8 sticky top-[64px] bg-white z-40 overflow-x-auto no-scrollbar">
-              {[
-                { name: 'Overview', icon: '📖' },
-                { name: 'Repositories', icon: '📦', count: 42 },
-                { name: 'Projects', icon: '📋' },
-                { name: 'Packages', icon: '📦' },
-                { name: 'Stars', icon: '⭐', count: 128 }
-              ].map((tab, i) => (
-                <div
-                  key={tab.name}
-                  className={`pb-3 px-1.5 cursor-pointer transition-all border-b-2 flex items-center gap-2 whitespace-nowrap text-sm ${i === 0 ? 'border-[#fd8c73] font-semibold text-[#1f2328]' : 'border-transparent text-[#636c76] hover:border-[#d0d7de]'
-                    }`}
-                >
-                  <span className="opacity-70 text-xs">{tab.icon}</span>
-                  {tab.name}
-                  {tab.count && (
-                    <span className="px-2 py-0.5 bg-[#f0f2f5] text-[#1f2328] rounded-full text-[10px] font-bold">
-                      {tab.count}
-                    </span>
-                  )}
-                </div>
-              ))}
+          <motion.h1
+            initial={{ y: 30, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.2, duration: 0.8 }}
+            className="text-[12vw] md:text-[80px] leading-[0.9] font-heading font-black text-[#111] tracking-tighter"
+          >
+            DESIGNING THE <br />
+            <span className="text-gradient">FUTURE OF WEB</span>
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5, duration: 1 }}
+            className="mt-8 text-lg md:text-xl text-[#555] max-w-[600px] leading-relaxed font-light"
+          >
+            최신 기술 트렌드를 반영한 고퀄리티 포트폴리오 사이트입니다.<br />
+            <span className="font-semibold text-[#111]">Vite, React, Tailwind CSS</span>를 활용하여 제작되었습니다.
+          </motion.p>
+
+          <motion.div
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.7 }}
+            className="mt-12 flex flex-col sm:flex-row gap-4"
+          >
+            <button className="px-10 py-4 bg-[#111] text-white rounded-full font-bold text-sm hover:scale-105 active:scale-95 transition-all shadow-xl hover:shadow-violet-200">
+              View Projects
+            </button>
+            <button className="px-10 py-4 bg-white/50 backdrop-blur-md border border-white rounded-full font-bold text-sm text-[#111] hover:bg-white transition-all shadow-sm">
+              Contact Me
+            </button>
+          </motion.div>
+        </section>
+
+        {/* Projects Grid */}
+        <section ref={targetRef} className="mt-40">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 px-4 gap-4">
+            <div>
+              <h2 className="text-4xl font-black font-heading tracking-tight text-[#111]">SELECTED WORKS</h2>
+              <p className="text-[#666] mt-2">창의적이고 실험적인 디지털 경험들</p>
             </div>
-
-            <section className="animate-fade">
-              <div className="flex items-center justify-between mb-5">
-                <h2 className="text-base font-semibold font-heading text-[#1f2328]">Pinned Projects</h2>
-                <span className="text-[12px] text-[#636c76] hover:text-blue-600 cursor-pointer transition-colors font-medium">Customize your pins</span>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                {pinnedRepos.map((repo, i) => (
-                  <motion.div
-                    key={repo.name}
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: i * 0.1, duration: 0.5 }}
-                  >
-                    <RepoCard {...repo} />
-                  </motion.div>
-                ))}
-              </div>
-            </section>
-
-            <ContributionGraph />
-
-            <section className="mt-12 mb-16 border-t border-[#d8dee4] pt-10">
-              <div className="flex items-center gap-2 mb-6">
-                <h3 className="text-sm font-bold font-heading text-[#636c76] uppercase tracking-wider">3D Activity Globe</h3>
-                <span className="px-2 py-0.5 bg-blue-50 text-blue-600 rounded text-[9px] font-bold uppercase">Experimental</span>
-              </div>
-              <div className="aspect-[24/10] bg-[#f6f8fa] rounded-2xl border border-[#d0d7de] flex items-center justify-center relative overflow-hidden group shadow-inner">
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-blue-50/50 via-white to-green-50/20" />
-
-                <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-                  className="w-[300px] h-[300px] rounded-full border border-dashed border-blue-200/50 flex items-center justify-center"
-                >
-                  <motion.div
-                    animate={{ rotate: -360 }}
-                    transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-                    className="w-[200px] h-[200px] rounded-full border border-green-200/50 flex items-center justify-center"
-                  />
-                </motion.div>
-
-                <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
-                  <div className="w-24 h-24 rounded-full bg-gradient-to-br from-blue-500/10 to-green-500/10 backdrop-blur-3xl animate-pulse" />
-                  <p className="text-[13px] font-semibold text-[#636c76] glass px-6 py-2.5 rounded-full shadow-lg border-white/50">
-                    Interactive Globe Engine Initializing...
-                  </p>
-                </div>
-              </div>
-            </section>
-          </main>
-        </div>
-      </div>
-
-      <footer className="border-t border-[#d8dee4] py-12 text-[12px] text-[#636c76] bg-[#f6f8fa]/50">
-        <div className="max-w-[1280px] mx-auto px-4 md:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="flex items-center gap-5">
-            <span className="font-medium">© 2026 Gae Jarae, Inc.</span>
-            <a href="#" className="hover:text-blue-600 transition-colors">Terms</a>
-            <a href="#" className="hover:text-blue-600 transition-colors">Privacy</a>
-            <a href="#" className="hover:text-blue-600 transition-colors">Security</a>
+            <button className="flex items-center gap-2 text-sm font-bold text-violet-600 hover:gap-4 transition-all">
+              Explore All <ExternalLink className="w-4 h-4" />
+            </button>
           </div>
-          <div className="flex flex-wrap justify-center items-center gap-x-5 gap-y-2">
-            <a href="#" className="hover:text-blue-600 transition-colors">Docs</a>
-            <a href="#" className="hover:text-blue-600 transition-colors">Contact GitHub</a>
-            <a href="#" className="hover:text-blue-600 transition-colors">Pricing</a>
-            <a href="#" className="hover:text-blue-600 transition-colors">API</a>
-            <a href="#" className="hover:text-blue-600 transition-colors">Training</a>
-            <a href="#" className="hover:text-blue-600 transition-colors">Blog</a>
-            <a href="#" className="hover:text-blue-600 transition-colors">About</a>
+
+          <motion.div
+            style={{ opacity, scale }}
+            className="grid grid-cols-1 md:grid-cols-2 gap-8 px-4"
+          >
+            {projects.map((project, i) => (
+              <ProjectCard key={i} {...project} />
+            ))}
+          </motion.div>
+        </section>
+
+        {/* Contact Strip */}
+        <section className="mt-40 flex flex-col items-center">
+          <div className="cloudy-glass p-8 md:p-12 rounded-[32px] w-full flex flex-col md:flex-row items-center justify-between gap-8 max-w-[1000px]">
+            <div>
+              <h3 className="text-3xl font-black font-heading text-[#111]">LET'S CREATE SOMETHING<br />LEGENDARY TOGETHER</h3>
+              <p className="text-[#666] mt-3">새로운 도전은 언제나 환영입니다.</p>
+            </div>
+            <div className="flex gap-4">
+              <a href="#" className="w-14 h-14 rounded-full bg-white flex items-center justify-center hover:scale-110 active:scale-90 transition-all shadow-sm"><Twitter className="w-6 h-6" /></a>
+              <a href="#" className="w-14 h-14 rounded-full bg-white flex items-center justify-center hover:scale-110 active:scale-90 transition-all shadow-sm"><Github className="w-6 h-6" /></a>
+              <a href="mailto:hello@gaejarae.com" className="w-14 h-14 rounded-full bg-[#111] text-white flex items-center justify-center hover:scale-110 active:scale-90 transition-all shadow-xl"><Mail className="w-6 h-6" /></a>
+            </div>
           </div>
-        </div>
+        </section>
+      </main>
+
+      <footer className="mt-20 py-10 border-t border-gray-100 px-8 text-center">
+        <p className="text-[12px] font-bold text-[#999] tracking-widest uppercase">© 2026 GAE JARAE — CRAFTED WITH PASSION</p>
       </footer>
     </div>
   );
