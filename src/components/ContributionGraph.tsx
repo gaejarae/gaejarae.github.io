@@ -12,8 +12,6 @@ const ContributionGraph = () => {
         return 0;
     });
 
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
     return (
         <div className="mt-10">
             <div className="flex items-center justify-between mb-3 px-1">
