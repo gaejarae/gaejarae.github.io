@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 
 const CyberMarketBackground: React.FC = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
+    const mouseRef = useRef({ x: -1000, y: -1000 });
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -23,7 +24,7 @@ const CyberMarketBackground: React.FC = () => {
         }
 
         interface Line {
-            points: { x: number; y: number }[];
+            points: { x: number; y: number; originalY: number }[];
             color: string;
             opacity: number;
         }
@@ -38,15 +39,15 @@ const CyberMarketBackground: React.FC = () => {
         for (let i = 0; i < 3; i++) {
             const points = [];
             let lastY = height * 0.5 + (Math.random() - 0.5) * 200;
-            for (let x = 0; x <= width; x += 50) {
+            for (let x = -100; x <= width + 100; x += 50) {
                 const y = lastY + (Math.random() - 0.5) * 100;
-                points.push({ x, y });
+                points.push({ x, y, originalY: y });
                 lastY = y;
             }
             lines.push({
                 points,
                 color: i === 0 ? '#00ff88' : i === 1 ? '#ff3344' : '#00ccff',
-                opacity: 0.1
+                opacity: 0.15
             });
         }
 
@@ -73,43 +74,69 @@ const CyberMarketBackground: React.FC = () => {
             ctx.fillStyle = '#050505';
             ctx.fillRect(0, 0, width, height);
 
+            const mouse = mouseRef.current;
+
             // Draw Lines
             lines.forEach(line => {
                 ctx.beginPath();
                 ctx.strokeStyle = line.color;
-                ctx.globalAlpha = line.opacity;
                 ctx.lineWidth = 1;
+
+                // Interaction: Lines rise when mouse is near
+                line.points.forEach(p => {
+                    const dx = p.x - mouse.x;
+                    const dy = p.y - mouse.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    const force = Math.max(0, (200 - dist) / 200);
+
+                    // Push UP (Rise)
+                    p.y = p.originalY - (force * 100);
+
+                    // Movement
+                    p.x -= 0.3;
+                    if (p.x < -100) {
+                        p.x = width + 100;
+                        p.originalY = height * 0.5 + (Math.random() - 0.5) * 200;
+                        p.y = p.originalY;
+                    }
+                });
+
+                line.points.sort((a, b) => a.x - b.x);
+
                 ctx.moveTo(line.points[0].x, line.points[0].y);
                 for (let i = 1; i < line.points.length; i++) {
                     const xc = (line.points[i].x + line.points[i - 1].x) / 2;
                     const yc = (line.points[i].y + line.points[i - 1].y) / 2;
                     ctx.quadraticCurveTo(line.points[i - 1].x, line.points[i - 1].y, xc, yc);
                 }
-                ctx.stroke();
 
-                // Move points slightly
-                line.points.forEach(p => {
-                    p.y += (Math.random() - 0.5) * 1.5;
-                    p.x -= 0.5;
-                    if (p.x < -50) p.x = width + 50;
-                });
-                line.points.sort((a, b) => a.x - b.x);
+                // Active glow if mouse is near
+                const lineDist = Math.min(...line.points.map(p => Math.abs(p.x - mouse.x)));
+                ctx.globalAlpha = lineDist < 200 ? 0.4 : line.opacity;
+                ctx.stroke();
             });
 
             // Draw Candles
             candles.forEach(c => {
-                ctx.globalAlpha = 0.15;
+                const dx = (c.x + c.width / 2) - mouse.x;
+                const dist = Math.abs(dx);
+                const isNear = dist < 150;
+
+                ctx.globalAlpha = isNear ? 0.5 : 0.15;
                 ctx.fillStyle = c.color;
                 ctx.strokeStyle = c.color;
 
+                // Rising effect for candles
+                const lift = isNear ? (150 - dist) / 5 : 0;
+
                 // Wick
                 ctx.beginPath();
-                ctx.moveTo(c.x + c.width / 2, c.low);
-                ctx.lineTo(c.x + c.width / 2, c.high);
+                ctx.moveTo(c.x + c.width / 2, c.low - lift);
+                ctx.lineTo(c.x + c.width / 2, c.high - lift);
                 ctx.stroke();
 
                 // Body
-                const bodyY = Math.min(c.open, c.close);
+                const bodyY = Math.min(c.open, c.close) - lift;
                 const bodyHeight = Math.abs(c.open - c.close);
                 ctx.fillRect(c.x, bodyY, c.width, Math.max(bodyHeight, 1));
 
@@ -135,10 +162,18 @@ const CyberMarketBackground: React.FC = () => {
             height = canvas.height = window.innerHeight;
         };
 
+        const handleMouseMove = (e: MouseEvent) => {
+            mouseRef.current = { x: e.clientX, y: e.clientY };
+        };
+
         window.addEventListener('resize', handleResize);
+        window.addEventListener('mousemove', handleMouseMove);
         animate();
 
-        return () => window.removeEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+            window.removeEventListener('mousemove', handleMouseMove);
+        };
     }, []);
 
     return (
