@@ -1,73 +1,85 @@
-import { ArrowUpRight } from 'lucide-react';
-import { motion, useMotionValue, useTransform } from 'framer-motion';
-import React from 'react';
+import { BarChart3, Star, GitFork, Lock, Globe } from 'lucide-react';
+import { motion } from 'framer-motion';
+import Sparkline from './Sparkline';
 
 interface ProjectCardProps {
     title: string;
+    symbol: string;
     description: string;
-    tags: string[];
-    image: string;
+    stars: number;
+    forks: number;
+    change: string;
+    data: number[];
+    type: "Public" | "Private";
 }
 
-const ProjectCard = ({ title, description, tags, image }: ProjectCardProps) => {
-    const x = useMotionValue(0);
-    const y = useMotionValue(0);
-
-    const rotateX = useTransform(y, [-100, 100], [10, -10]);
-    const rotateY = useTransform(x, [-100, 100], [-10, 10]);
-
-    function handleMouseMove(event: React.MouseEvent<HTMLDivElement>) {
-        const rect = event.currentTarget.getBoundingClientRect();
-        const centerX = rect.left + rect.width / 2;
-        const centerY = rect.top + rect.height / 2;
-        x.set(event.clientX - centerX);
-        y.set(event.clientY - centerY);
-    }
-
-    function handleMouseLeave() {
-        x.set(0);
-        y.set(0);
-    }
+const ProjectCard = ({ title, symbol, description, stars, forks, change, data, type }: ProjectCardProps) => {
+    const isUp = change.startsWith('+');
 
     return (
         <motion.div
-            style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-            onMouseMove={handleMouseMove}
-            onMouseLeave={handleMouseLeave}
-            className="group relative h-80 w-full overflow-hidden rounded-3xl cloudy-glass p-8 transition-all duration-300 hover:shadow-2xl cursor-pointer"
+            whileHover={{ y: -2, scale: 1.01 }}
+            className="dashboard-pane p-5 hover:border-market-blue transition-all group overflow-hidden relative cursor-pointer"
         >
-            <div
-                className="absolute inset-0 -z-10 opacity-10 group-hover:opacity-20 transition-opacity duration-500"
-                style={{ backgroundImage: `url(${image})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
-            />
-
-            <div className="flex flex-col h-full justify-between relative z-10">
-                <div>
-                    <div className="flex justify-between items-start">
-                        <h3 className="text-2xl font-bold font-heading text-[#111]">{title}</h3>
-                        <div className="w-10 h-10 rounded-full bg-white border border-gray-100 flex items-center justify-center transform group-hover:rotate-45 transition-transform">
-                            <ArrowUpRight className="w-5 h-5" />
+            <div className="flex justify-between items-start mb-4">
+                <div className="flex items-center gap-3">
+                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center font-bold text-white ${isUp ? 'bg-bull' : 'bg-market-blue'}`}>
+                        {symbol.charAt(0)}
+                    </div>
+                    <div>
+                        <div className="flex items-center gap-2">
+                            <h3 className="font-heading font-black text-lg tracking-tight leading-none uppercase">{title}</h3>
+                            <span className="font-mono text-[9px] font-black px-1.5 py-0.5 border border-market-border rounded text-slate-400">
+                                {symbol}
+                            </span>
+                        </div>
+                        <div className="flex items-center gap-1.5 mt-1.5">
+                            {type === 'Public' ? <Globe className="w-3 h-3 text-slate-400" /> : <Lock className="w-3 h-3 text-slate-400" />}
+                            <span className="font-mono text-[10px] text-slate-400 font-bold uppercase">{type} ASSET</span>
                         </div>
                     </div>
-                    <p className="mt-4 text-sm text-[#555] leading-relaxed max-w-[280px]">
-                        {description}
-                    </p>
                 </div>
-
-                <div className="flex flex-wrap gap-2">
-                    {tags.map(tag => (
-                        <span key={tag} className="px-3 py-1 rounded-full bg-white/50 border border-white text-[10px] font-bold text-[#111] tracking-wider uppercase">
-                            {tag}
-                        </span>
-                    ))}
+                <div className="text-right">
+                    <div className={`font-mono text-sm font-black ${isUp ? 'text-bull' : 'text-bear'}`}>
+                        {change} {isUp ? '▲' : '▼'}
+                    </div>
+                    <div className="font-mono text-[9px] text-slate-400 font-bold uppercase mt-1">24H PERFORMANCE</div>
                 </div>
             </div>
 
-            {/* Magnetic Shine Effect */}
-            <motion.div
-                className="absolute -inset-x-20 -inset-y-20 -z-20 bg-gradient-to-tr from-violet-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
-                style={{ x: useTransform(x, (v) => v * 0.5), y: useTransform(y, (v) => v * 0.5) }}
-            />
+            <p className="text-xs text-slate-500 font-medium leading-relaxed mb-6 h-8 line-clamp-2 italic">
+                "{description}"
+            </p>
+
+            <div className="grid grid-cols-2 gap-4 border-t border-slate-50 pt-5">
+                <div className="flex flex-col">
+                    <div className="flex items-center gap-1.5 text-slate-400 mb-1">
+                        <Star className="w-3.5 h-3.5" />
+                        <span className="font-mono text-[9px] font-bold uppercase">PRICE (STARS)</span>
+                    </div>
+                    <span className="font-mono font-bold text-lg">{stars.toLocaleString()}.00</span>
+                </div>
+                <div className="flex flex-col">
+                    <div className="flex items-center gap-1.5 text-slate-400 mb-1">
+                        <GitFork className="w-3.5 h-3.5" />
+                        <span className="font-mono text-[9px] font-bold uppercase">VOL (FORKS)</span>
+                    </div>
+                    <span className="font-mono font-bold text-lg">{forks.toLocaleString()}</span>
+                </div>
+            </div>
+
+            <div className="mt-6 pt-4 border-t border-dashed border-market-border flex items-end justify-between">
+                <div className="flex flex-col">
+                    <span className="font-mono text-[9px] text-slate-400 font-bold uppercase mb-2">ACTIVITY STREAM</span>
+                    <Sparkline data={data} color={isUp ? "#10b981" : "#3b82f6"} width={140} height={30} />
+                </div>
+                <button className="p-2 border border-market-border rounded-md hover:bg-slate-50 group transition-all">
+                    <BarChart3 className="w-4 h-4 text-slate-400 group-hover:text-market-blue transition-colors" />
+                </button>
+            </div>
+
+            {/* Decorative Scanline */}
+            <div className="absolute inset-0 pointer-events-none opacity-[0.03] bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,3px_100%]" />
         </motion.div>
     );
 };

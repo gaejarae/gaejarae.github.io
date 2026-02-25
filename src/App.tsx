@@ -1,139 +1,195 @@
 import Navbar from './components/Navbar';
-import FluidMeshBackground from './components/FluidMeshBackground';
+import TickerTape from './components/TickerTape';
 import ProjectCard from './components/ProjectCard';
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { useRef } from 'react';
-import { Github, Twitter, Mail, ExternalLink, Sparkles } from 'lucide-react';
+import { BarChart, ShieldCheck, Zap, Target, Cpu, Layers, ArrowUpRight } from 'lucide-react';
 
 function App() {
-  const targetRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: targetRef,
-    offset: ["start end", "end start"],
-  });
-
-  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 0.2], [0.8, 1]);
-
   const projects = [
     {
       title: "Antigravity Engine",
-      description: "High-performance simulation engine for organic motion and fluid dynamics in web environments.",
-      tags: ["TypeScript", "Canvas", "Physics"],
-      image: "https://images.unsplash.com/photo-1635776062127-d379bfcba9f8?auto=format&fit=crop&q=80&w=800"
+      symbol: "AGV",
+      description: "Organic motion simulation for high-end web applications.",
+      stars: 1240,
+      forks: 342,
+      change: "+12.4%",
+      data: [10, 15, 12, 18, 22, 20, 25, 28, 32],
+      type: "Public" as const
     },
     {
       title: "Crystal UI Kit",
-      description: "A premium set of Glassmorphism components for high-end digital agency portfolios.",
-      tags: ["React", "Framer Motion", "CSS"],
-      image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&q=80&w=800"
+      symbol: "CRYS",
+      description: "Premium Glassmorphism component library for modern brands.",
+      stars: 890,
+      forks: 156,
+      change: "+5.8%",
+      data: [30, 28, 35, 32, 40, 38, 42, 45, 50],
+      type: "Public" as const
     },
     {
       title: "Iridescent Dash",
-      description: "Data visualization dashboard with real-time liquid gradient backgrounds and 3D interactions.",
-      tags: ["Next.js", "D3.js", "WebGL"],
-      image: "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&q=80&w=800"
+      symbol: "IRID",
+      description: "Real-time data visualization with liquid gradients.",
+      stars: 2100,
+      forks: 567,
+      change: "+24.2%",
+      data: [5, 12, 8, 20, 15, 25, 35, 30, 48],
+      type: "Public" as const
     },
     {
-      title: "Magnetic Core",
-      description: "An open-source library for creating natural-feeling magnetic and tactile user interfaces.",
-      tags: ["Rust", "Wasm", "React"],
-      image: "https://images.unsplash.com/photo-1642427749670-f20e2e76ee8c?auto=format&fit=crop&q=80&w=800"
+      title: "Secure Core",
+      symbol: "SCR",
+      description: "Rust-based encryption layer for distributed networks.",
+      stars: 450,
+      forks: 89,
+      change: "-2.1%",
+      data: [50, 48, 45, 47, 42, 40, 38, 35, 30],
+      type: "Public" as const
     }
   ];
 
   return (
-    <div className="relative min-h-screen">
-      <FluidMeshBackground />
+    <div className="relative min-h-screen pb-20 pt-32">
+      <TickerTape />
       <Navbar />
 
-      <main className="container pt-40 pb-20">
-        {/* Hero Section */}
-        <section className="flex flex-col items-center text-center px-4">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="mb-6 px-4 py-1.5 rounded-full bg-white/50 border border-white text-[11px] font-bold tracking-[0.2em] text-violet-600 uppercase flex items-center gap-2 shadow-sm"
-          >
-            <Sparkles className="w-3 h-3" />
-            Future-Ready Design
-          </motion.div>
-
-          <motion.h1
-            initial={{ y: 30, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.2, duration: 0.8 }}
-            className="text-[12vw] md:text-[80px] leading-[0.9] font-heading font-black text-[#111] tracking-tighter"
-          >
-            DESIGNING THE <br />
-            <span className="text-gradient">FUTURE OF WEB</span>
-          </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5, duration: 1 }}
-            className="mt-8 text-lg md:text-xl text-[#555] max-w-[600px] leading-relaxed font-light"
-          >
-            최신 기술 트렌드를 반영한 고퀄리티 포트폴리오 사이트입니다.<br />
-            <span className="font-semibold text-[#111]">Vite, React, Tailwind CSS</span>를 활용하여 제작되었습니다.
-          </motion.p>
-
-          <motion.div
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.7 }}
-            className="mt-12 flex flex-col sm:flex-row gap-4"
-          >
-            <button className="px-10 py-4 bg-[#111] text-white rounded-full font-bold text-sm hover:scale-105 active:scale-95 transition-all shadow-xl hover:shadow-violet-200">
-              View Projects
-            </button>
-            <button className="px-10 py-4 bg-white/50 backdrop-blur-md border border-white rounded-full font-bold text-sm text-[#111] hover:bg-white transition-all shadow-sm">
-              Contact Me
-            </button>
-          </motion.div>
-        </section>
-
-        {/* Projects Grid */}
-        <section ref={targetRef} className="mt-40">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 px-4 gap-4">
-            <div>
-              <h2 className="text-4xl font-black font-heading tracking-tight text-[#111]">SELECTED WORKS</h2>
-              <p className="text-[#666] mt-2">창의적이고 실험적인 디지털 경험들</p>
+      <main className="container max-w-[1240px] px-6">
+        {/* Header Section */}
+        <section className="mt-12 mb-16 grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-2 dashboard-pane p-10 relative overflow-hidden flex flex-col justify-center">
+            <div className="relative z-10">
+              <div className="flex items-center gap-3 mb-6">
+                <span className="px-3 py-1 bg-bull/10 text-bull font-mono text-[10px] font-black rounded uppercase tracking-widest border border-bull/20">Market Status: Bullish</span>
+                <span className="font-mono text-[10px] text-slate-400 font-bold uppercase">Uptime: 99.99%</span>
+              </div>
+              <h2 className="text-5xl md:text-7xl font-heading font-black tracking-tighter text-slate-900 leading-[0.85] mb-8">
+                TRADING <br />
+                <span className="text-market-blue">IMPOSSIBLE</span> <br />
+                REALITIES.
+              </h2>
+              <div className="flex gap-4">
+                <button className="px-8 py-3.5 bg-slate-900 text-white rounded-lg font-bold text-xs uppercase tracking-[0.2em] shadow-xl hover:scale-[1.02] active:scale-[0.98] transition-all">Start Execution</button>
+                <button className="px-8 py-3.5 border-2 border-slate-900 rounded-lg font-bold text-xs uppercase tracking-[0.2em] hover:bg-slate-900 hover:text-white transition-all">View Assets</button>
+              </div>
             </div>
-            <button className="flex items-center gap-2 text-sm font-bold text-violet-600 hover:gap-4 transition-all">
-              Explore All <ExternalLink className="w-4 h-4" />
-            </button>
+            {/* Background Graph Decorative */}
+            <div className="absolute right-0 bottom-0 opacity-10 pointer-events-none transform translate-y-1/4 translate-x-1/4">
+              <svg width="600" height="400" viewBox="0 0 600 400">
+                <path d="M0 400 L50 350 L100 380 L150 200 L200 250 L250 100 L300 150 L350 50 L400 80 L450 20 L500 60 L550 10 L600 40" fill="none" stroke="#3b82f6" strokeWidth="20" strokeLinecap="round" />
+              </svg>
+            </div>
           </div>
 
-          <motion.div
-            style={{ opacity, scale }}
-            className="grid grid-cols-1 md:grid-cols-2 gap-8 px-4"
-          >
+          <div className="dashboard-pane p-10 flex flex-col justify-between">
+            <div>
+              <div className="flex items-center justify-between mb-8">
+                <h3 className="font-heading font-black text-2xl uppercase tracking-tighter">My Stats</h3>
+                <BarChart className="w-6 h-6 text-market-blue" />
+              </div>
+              <div className="space-y-6">
+                <div className="flex justify-between items-end border-b border-dashed border-slate-200 pb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded bg-bull/10 flex items-center justify-center text-bull"><Zap className="w-4 h-4" /></div>
+                    <span className="font-mono text-[11px] font-bold text-slate-400 uppercase">Velocity</span>
+                  </div>
+                  <span className="font-mono font-bold text-lg">9.4/s</span>
+                </div>
+                <div className="flex justify-between items-end border-b border-dashed border-slate-200 pb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded bg-market-blue/10 flex items-center justify-center text-market-blue"><ShieldCheck className="w-4 h-4" /></div>
+                    <span className="font-mono text-[11px] font-bold text-slate-400 uppercase">Integrity</span>
+                  </div>
+                  <span className="font-mono font-bold text-lg">100%</span>
+                </div>
+                <div className="flex justify-between items-end border-b border-dashed border-slate-200 pb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded bg-purple-100 flex items-center justify-center text-purple-600"><Layers className="w-4 h-4" /></div>
+                    <span className="font-mono text-[11px] font-bold text-slate-400 uppercase">Deployments</span>
+                  </div>
+                  <span className="font-mono font-bold text-lg">4,281</span>
+                </div>
+              </div>
+            </div>
+            <div className="mt-8 p-4 bg-slate-50 rounded-lg border border-market-border">
+              <p className="font-mono text-[10px] text-slate-500 font-bold leading-relaxed tracking-tight">
+                GAEJARAE.SYSTEM: [ONLINE] READY TO TRANSFORM DIGITAL LANDSCAPES WITH HIGH-SPEED EXECUTION.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Assets / Projects Grid */}
+        <section className="mb-20">
+          <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center gap-4">
+              <div className="w-2 h-8 bg-market-blue rounded-full" />
+              <h2 className="text-3xl font-heading font-black uppercase tracking-tighter">Active Portfolio Assets</h2>
+            </div>
+            <div className="flex gap-2">
+              <span className="font-mono text-[10px] font-black p-2 border border-market-border rounded bg-white">ALL ASSETS</span>
+              <span className="font-mono text-[10px] font-black p-2 bg-slate-900 text-white rounded">FILTER: GROWTH</span>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {projects.map((project, i) => (
               <ProjectCard key={i} {...project} />
             ))}
-          </motion.div>
+          </div>
         </section>
 
-        {/* Contact Strip */}
-        <section className="mt-40 flex flex-col items-center">
-          <div className="cloudy-glass p-8 md:p-12 rounded-[32px] w-full flex flex-col md:flex-row items-center justify-between gap-8 max-w-[1000px]">
-            <div>
-              <h3 className="text-3xl font-black font-heading text-[#111]">LET'S CREATE SOMETHING<br />LEGENDARY TOGETHER</h3>
-              <p className="text-[#666] mt-3">새로운 도전은 언제나 환영입니다.</p>
+        {/* Global Market Overview / Skills */}
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
+          <div className="dashboard-pane p-8">
+            <h3 className="font-heading font-black text-xl uppercase tracking-tighter mb-6 flex items-center gap-2">
+              <Target className="w-5 h-5 text-bull" /> Strategic Pillars
+            </h3>
+            <div className="space-y-4">
+              {[
+                { name: "Frontend Engineering", val: 98, color: "bg-market-blue" },
+                { name: "Creative Interaction", val: 95, color: "bg-bull" },
+                { name: "Performance Optimization", val: 92, color: "bg-purple-600" },
+                { name: "System Architecture", val: 88, color: "bg-slate-900" }
+              ].map(skill => (
+                <div key={skill.name}>
+                  <div className="flex justify-between text-[11px] font-mono font-bold uppercase mb-2">
+                    <span>{skill.name}</span>
+                    <span>{skill.val}%</span>
+                  </div>
+                  <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
+                    <div className={`h-full ${skill.color}`} style={{ width: `${skill.val}%` }} />
+                  </div>
+                </div>
+              ))}
             </div>
-            <div className="flex gap-4">
-              <a href="#" className="w-14 h-14 rounded-full bg-white flex items-center justify-center hover:scale-110 active:scale-90 transition-all shadow-sm"><Twitter className="w-6 h-6" /></a>
-              <a href="#" className="w-14 h-14 rounded-full bg-white flex items-center justify-center hover:scale-110 active:scale-90 transition-all shadow-sm"><Github className="w-6 h-6" /></a>
-              <a href="mailto:hello@gaejarae.com" className="w-14 h-14 rounded-full bg-[#111] text-white flex items-center justify-center hover:scale-110 active:scale-90 transition-all shadow-xl"><Mail className="w-6 h-6" /></a>
-            </div>
+          </div>
+
+          <div className="dashboard-pane p-8 flex flex-col items-center justify-center text-center relative overflow-hidden group">
+            <div className="absolute inset-0 bg-slate-900 opacity-0 group-hover:opacity-[0.02] transition-opacity" />
+            <Cpu className="w-12 h-12 text-slate-300 mb-6 group-hover:text-market-blue transition-colors group-hover:rotate-12 duration-500" />
+            <h3 className="font-heading font-black text-2xl uppercase tracking-tighter mb-4">Market Execution Ready</h3>
+            <p className="text-sm text-slate-500 max-w-[300px] mb-8">
+              새로운 데이터를 분석하고 더 큰 가치를 창출할 준비가 되어 있습니다. 지금 바로 연결하십시오.
+            </p>
+            <button className="flex items-center gap-2 font-mono text-[11px] font-black uppercase text-market-blue tracking-widest hover:gap-4 transition-all">
+              Open Terminal <ArrowUpRight className="w-4 h-4" />
+            </button>
           </div>
         </section>
       </main>
 
-      <footer className="mt-20 py-10 border-t border-gray-100 px-8 text-center">
-        <p className="text-[12px] font-bold text-[#999] tracking-widest uppercase">© 2026 GAE JARAE — CRAFTED WITH PASSION</p>
+      <footer className="border-t border-market-border py-12 px-6">
+        <div className="container max-w-[1240px] flex flex-col md:flex-row justify-between items-center gap-8">
+          <div className="flex items-center gap-3 opacity-40">
+            <div className="w-8 h-8 rounded bg-slate-400" />
+            <span className="font-mono text-[11px] font-bold uppercase tracking-widest">© 2026 GAEJARAE — QUANT ASSET</span>
+          </div>
+          <div className="flex gap-8">
+            <a href="#" className="font-mono text-[10px] font-bold text-slate-400 hover:text-slate-900 uppercase">Privacy</a>
+            <a href="#" className="font-mono text-[10px] font-bold text-slate-400 hover:text-slate-900 uppercase">Terms</a>
+            <a href="#" className="font-mono text-[10px] font-bold text-slate-400 hover:text-slate-900 uppercase">Network Status</a>
+            <a href="#" className="font-mono text-[10px] font-bold text-market-blue hover:underline uppercase tracking-tighter">Contact Root</a>
+          </div>
+        </div>
       </footer>
     </div>
   );
