@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@400;700&family=Noto+Sans+KR:wght@300;400;700;900&display=swap');
 
 @theme {
   --color-cyber-bg: #050505;
@@ -10,8 +10,11 @@
   --color-cyber-border: rgba(255, 255, 255, 0.1);
   --color-cyber-glass: rgba(10, 10, 10, 0.7);
 
-  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-heading: 'Inter', 'Noto Sans KR', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
+  --primary: #00ccff;
+  --accent: #00ff88;
+  --bg: #050505;
 
   --shadow-glow-bull: 0 0 20px rgba(0, 255, 136, 0.2);
   --shadow-glow-bear: 0 0 20px rgba(255, 51, 68, 0.2);
